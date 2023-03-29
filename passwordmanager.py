@@ -12,15 +12,19 @@ def show_pass(password):
     else:
         password.setEchoMode(QLineEdit.Password)
         
-def check_errors(app, password):
+def check_errors(app, name, mail, password):
     if len(app.text()) == 0:
         QMessageBox.critical(None, "ERROR","ENTER A VALID NAME")
     elif len(password.text()) == 0:
         QMessageBox.critical(None, "ERROR","ENTER A VALID PASSWORD")
+    elif len(name.text()) == 0:
+        QMessageBox.critical(None, "ERROR","ENTER A VALID USERNAME")
+    elif len(mail.text()) == 0:
+        QMessageBox.critical(None, "ERROR","ENTER A VALID MAIL")
     else:
-        save_file.clicked.connect(lambda: confirm(entering_info, password))
+        save_file.clicked.connect(lambda: confirm(app, name,  mail, password))
         
-def confirm(app, password):
+def confirm(app, name, mail, password):
         # Create the main window
         display = QMainWindow()
         display.setWindowTitle('Save File')
@@ -41,10 +45,14 @@ def confirm(app, password):
                     with open(file_name, 'a') as file:
                         file.write("\n")
                         file.write(f"{f'NAME: {app.text().upper()}'}\n")
+                        file.write(f"{f'USERNAME: {name.text()}'}\n")
+                        file.write(f"{f'E-MAIL: {mail.text()}'}\n")
                         file.write(f"{f'PASSWORD: {password.text()}'}\n")
                 else:
                     with open(file_name, 'w') as file:
                         file.write(f"{f'NAME: {app.text().upper()}'}\n")
+                        file.write(f"{f'USERNAME: {name.text()}'}\n")
+                        file.write(f"{f'E-MAIL: {mail.text()}'}\n")
                         file.write(f"{f'PASSWORD: {password.text()}'}\n")
                 path = os.path.abspath(file_name)  # get absolute path of file
                 QMessageBox.information(None, 'Success', f'saved in the path: {path}')
@@ -123,6 +131,21 @@ entering_info = QLineEdit()
 entering_info.setPlaceholderText("Enter website name or an app")
 entering_info.setFont(app_font)
 
+name_application_label = QLabel("USERNAME:")
+name_application_label.setFont(app_font)
+
+name = QLineEdit()
+name.setPlaceholderText("Enter your username")
+name.setFont(app_font)
+
+email_application_label = QLabel("E-MAIL:")
+email_application_label.setFont(app_font)
+
+email = QLineEdit()
+email.setPlaceholderText("Enter the e-mail:")
+email.setFont(app_font)
+
+
 password_application_label = QLabel("PASSWORD:")
 password_application_label.setFont(app_font)
 
@@ -131,10 +154,11 @@ password.setPlaceholderText("Enter a password")
 password.setEchoMode(QLineEdit.Password)
 password.setFont(app_font)
 
+
 show_password_button = QPushButton("SHOW PASSWORD")
 show_password_button.clicked.connect(lambda: show_pass(password))
 save_file = QPushButton("Save")
-save_file.clicked.connect(lambda: check_errors(entering_info, password))
+save_file.clicked.connect(lambda: check_errors(entering_info, name, email, password))
 
 
 widgets_layout = QVBoxLayout()
@@ -143,6 +167,10 @@ widgets_layout.addWidget(naming_application_label)
 widgets_layout.addWidget(entering_info)
 widgets_layout.addWidget(password_application_label)
 widgets_layout.addWidget(password)
+widgets_layout.addWidget(name_application_label)
+widgets_layout.addWidget(name)
+widgets_layout.addWidget(email_application_label)
+widgets_layout.addWidget(email)
 widgets_layout.addWidget(show_password_button)
 widgets_layout.addWidget(save_file)
 window.setLayout(widgets_layout)
