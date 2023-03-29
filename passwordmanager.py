@@ -59,6 +59,7 @@ def confirm(app, name, mail, password):
                 sys.exit()
 
         button.clicked.connect(save_file)
+        name_file.returnPressed.connect(save_file)
 
 
          # Create the layout and add widgets
