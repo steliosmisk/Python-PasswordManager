@@ -143,7 +143,7 @@ email_application_label = QLabel("E-MAIL:")
 email_application_label.setFont(app_font)
 
 email = QLineEdit()
-email.setPlaceholderText("Enter the e-mail:")
+email.setPlaceholderText("Enter the e-mail")
 email.setFont(app_font)
 
 
